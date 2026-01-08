@@ -140,3 +140,4 @@ Eğer bir bilgi bulunamazsa null kullan. Sadece JSON döndür, başka açıklama
 
 
 
+
