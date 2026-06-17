@@ -42,8 +42,7 @@ export default async function AdminApplicationsPage() {
   }
 
   // ADMIN rolü kontrolü
-  const userRole = (session.user as any)?.role
-  if (userRole !== 'ADMIN') {
+  if (session.user.role !== 'ADMIN') {
     redirect('/dashboard')
   }
 

@@ -20,7 +20,6 @@ export default function ApplyPage() {
     pasaportNumarasi?: string
     ulke?: string
   } | null>(null)
-  const [rawGeminiResponse, setRawGeminiResponse] = useState<string>('')
 
   const [formData, setFormData] = useState({
     destinationCountryId: '',
@@ -85,7 +84,6 @@ export default function ApplyPage() {
     setPassportFile(file)
     setError('')
     setPassportData(null)
-    setRawGeminiResponse('')
 
     // Dosya yüklendiği anda AI analizini başlat
     setAnalyzing(true)
@@ -94,14 +92,8 @@ export default function ApplyPage() {
       
       if (result.success && result.data) {
         setPassportData(result.data)
-        if (result.rawResponse) {
-          setRawGeminiResponse(result.rawResponse)
-        }
       } else {
         setError(result.error || 'Pasaport analiz edilemedi')
-        if (result.rawResponse) {
-          setRawGeminiResponse(result.rawResponse)
-        }
       }
     } catch (err) {
       setError('Pasaport analiz edilirken bir hata oluştu')
@@ -140,7 +132,7 @@ export default function ApplyPage() {
 
       if (result.success) {
         // Başarılı, başvuru detay sayfasına yönlendir
-        router.push(`/dashboard/applications/${result.application.id}`)
+        router.push(`/dashboard/applications/${result.application!.id}`)
       } else {
         setError(result.error || 'Başvuru oluşturulurken bir hata oluştu')
       }
@@ -313,17 +305,6 @@ export default function ApplyPage() {
                     </div>
                   </div>
 
-                  {/* Raw Gemini Response */}
-                  {rawGeminiResponse && (
-                    <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                      <h4 className="font-semibold text-slate-800 mb-2 text-sm">
-                        Gemini Ham Cevabı:
-                      </h4>
-                      <pre className="text-xs bg-white p-3 rounded border border-slate-200 overflow-auto max-h-40 text-slate-700">
-                        {rawGeminiResponse}
-                      </pre>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
@@ -386,7 +367,6 @@ export default function ApplyPage() {
             </div>
           </form>
         </div>
-      </div>
     </div>
   )
 }

@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getDocumentUrl } from '@/lib/s3'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { documentId: string } }
 ) {
   try {
-    // Kullanıcı authentication kontrolü
     const session = await getServerSession(authOptions)
     if (!session) {
       return NextResponse.json(
@@ -26,13 +26,39 @@ export async function GET(
       )
     }
 
-    // Presigned URL al
+    // Belgenin sahibini doğrula (ADMIN her belgeye erişebilir)
+    const document = await prisma.document.findUnique({
+      where: { id: documentId },
+      include: {
+        visaApplication: {
+          select: { userId: true }
+        }
+      }
+    })
+
+    if (!document) {
+      return NextResponse.json(
+        { error: 'Document bulunamadı' },
+        { status: 404 }
+      )
+    }
+
+    const userRole = session.user.role
+    const userId = session.user.id
+
+    if (userRole !== 'ADMIN' && document.visaApplication.userId !== userId) {
+      return NextResponse.json(
+        { error: 'Bu belgeye erişim yetkiniz yok' },
+        { status: 403 }
+      )
+    }
+
     const url = await getDocumentUrl(documentId)
 
     if (!url) {
       return NextResponse.json(
-        { error: 'Document bulunamadı veya URL oluşturulamadı' },
-        { status: 404 }
+        { error: 'URL oluşturulamadı' },
+        { status: 500 }
       )
     }
 

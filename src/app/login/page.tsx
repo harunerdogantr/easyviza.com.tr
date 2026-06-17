@@ -1,32 +1,36 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { User, Lock, Check } from 'lucide-react'
+import { Globe2, Lock, Mail, ArrowRight, CheckCircle2, ShieldCheck, Clock3 } from 'lucide-react'
 
-export default function LoginPage() {
+const perks = [
+  { icon: CheckCircle2, text: '10\'dan fazla ülkede vize desteği' },
+  { icon: ShieldCheck,  text: 'Belgeleriniz güvenle saklanır' },
+  { icon: Clock3,       text: '7/24 uzman destek' },
+]
+
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { data: session, status } = useSession()
-  const [email, setEmail] = useState('')
+  const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [error, setError]       = useState('')
+  const [success, setSuccess]   = useState('')
+  const [loading, setLoading]   = useState(false)
 
-  // Eğer kullanıcı zaten giriş yapmışsa countries sayfasına yönlendir
   useEffect(() => {
-    if (status === 'authenticated' && session) {
-      router.push('/countries')
-      router.refresh()
+    if (status === 'authenticated') {
+      router.replace('/countries')
     }
-  }, [status, session, router])
+  }, [status, router])
 
   useEffect(() => {
     if (searchParams.get('registered') === 'true') {
-      setSuccess('Kayıt başarılı! Şimdi giriş yapabilirsiniz.')
+      setSuccess('Hesabınız oluşturuldu! Şimdi giriş yapabilirsiniz.')
     }
   }, [searchParams])
 
@@ -34,182 +38,188 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
     setLoading(true)
-
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false
-      })
-
+      const result = await signIn('credentials', { email, password, redirect: false })
       if (result?.error) {
-        setError(result.error)
+        setError('E-posta veya şifre hatalı. Lütfen tekrar deneyin.')
       } else {
-        router.push('/countries')
-        router.refresh()
+        router.replace('/countries')
       }
-    } catch (err) {
-      setError('Giriş yapılırken bir hata oluştu')
+    } catch {
+      setError('Giriş yapılırken bir hata oluştu.')
     } finally {
       setLoading(false)
     }
   }
 
+  // Oturum yüklenirken veya zaten giriş yapılmışsa boş ekran göster
+  if (status === 'loading' || status === 'authenticated') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-lime-50 via-white to-emerald-50">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg animate-pulse">
+            <Globe2 className="w-6 h-6 text-white" />
+          </div>
+          <p className="text-slate-500 text-sm">Yükleniyor...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen flex">
-      {/* Left Column - Promotional Section */}
-      <div className="hidden lg:flex lg:w-[60%] relative bg-green-900 overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-800 to-green-900">
-          <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] bg-cover bg-center opacity-20 blur-sm"></div>
-        </div>
-        
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-between p-12 text-white">
+
+      {/* ── Left panel ── */}
+      <div className="hidden lg:flex lg:w-[55%] relative bg-slate-900 overflow-hidden">
+        {/* blobs */}
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-green-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-emerald-500/15 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex flex-col justify-between p-14 w-full">
           {/* Logo */}
-          <div>
-            <Link href="/" className="inline-block">
-              <span className="text-3xl font-bold text-lime-400 lowercase tracking-tight">
-                viza
-              </span>
-            </Link>
-          </div>
+          <Link href="/" className="flex items-center gap-2 w-fit">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
+              <Globe2 className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-2xl font-extrabold text-white tracking-tight">
+              Easy<span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">Viza</span>
+            </span>
+          </Link>
 
-          {/* Main Content */}
+          {/* Headline */}
           <div className="max-w-lg">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Hayallerinizdeki Ülkeye{' '}
-              <span className="text-lime-400">Vize</span> Yolculuğu Burada Başlar.
+            <h1 className="text-5xl font-extrabold text-white leading-[1.1] mb-6">
+              Hayalinizdeki seyahate{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+                vize engeli olmadan
+              </span>{' '}
+              ulaşın.
             </h1>
-            <p className="text-lg text-white/90 leading-relaxed mb-12">
-              Kişisel vize asistanınız ile karmaşık süreçleri geride bırakın. Sizin için her adımı profesyonelce yönetiyoruz.
+            <p className="text-lg text-white/60 leading-relaxed mb-10">
+              Türkiye'nin en hızlı dijital vize platformuna hoş geldiniz. Başvurunuzu dakikalar içinde oluşturun.
             </p>
+
+            <ul className="space-y-4">
+              {perks.map(({ icon: Icon, text }) => (
+                <li key={text} className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-green-400" />
+                  </div>
+                  <span className="text-white/80 text-sm font-medium">{text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Features */}
-          <div className="flex gap-8">
-            <div className="flex items-center gap-2">
-              <Check className="w-5 h-5 text-lime-400" />
-              <span className="text-white/90 font-medium">Hızlı Başvuru</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Check className="w-5 h-5 text-lime-400" />
-              <span className="text-white/90 font-medium">Güvenli Ödeme</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Check className="w-5 h-5 text-lime-400" />
-              <span className="text-white/90 font-medium">7/24 Destek</span>
-            </div>
+          {/* Floating stat cards */}
+          <div className="flex gap-4">
+            {[
+              { value: '1.500+', label: 'Tamamlanan Başvuru' },
+              { value: '%98',    label: 'Onay Oranı' },
+              { value: '10+',   label: 'Ülke' },
+            ].map((s) => (
+              <div key={s.label} className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4 flex-1 text-center">
+                <p className="text-2xl font-extrabold text-white">{s.value}</p>
+                <p className="text-white/50 text-xs mt-0.5">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Right Column - Login Form */}
-      <div className="w-full lg:w-[40%] bg-white flex items-center justify-center p-8">
+      {/* ── Right panel ── */}
+      <div className="w-full lg:w-[45%] flex items-center justify-center p-8 bg-gradient-to-br from-lime-50 via-white to-emerald-50">
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">
-            Tekrar Hoş Geldiniz
-          </h2>
-          <p className="text-slate-600 mb-8">
-            Devam etmek için hesabınıza giriş yapın.
-          </p>
+
+          {/* Mobile logo */}
+          <Link href="/" className="flex items-center gap-2 mb-8 lg:hidden">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+              <Globe2 className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-xl font-extrabold text-slate-900">
+              Easy<span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">Viza</span>
+            </span>
+          </Link>
+
+          <h2 className="text-3xl font-extrabold text-slate-900 mb-1">Tekrar hoş geldiniz</h2>
+          <p className="text-slate-500 mb-8">Hesabınıza giriş yapın.</p>
 
           {success && (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
+            <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6 text-sm">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
               {success}
             </div>
           )}
-
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email/Username Field */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-slate-900 mb-2"
-              >
-                E-posta veya Kullanıcı Adı
-              </label>
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1.5">E-posta</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User className="w-5 h-5 text-slate-400" />
-                </div>
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
-                  id="email"
-                  type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-slate-900 placeholder-slate-400"
-                  placeholder="Kullanıcı adınız..."
+                  id="email" type="email" value={email}
+                  onChange={(e) => setEmail(e.target.value)} required
+                  placeholder="ornek@email.com"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition text-sm"
                 />
               </div>
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-slate-900"
-                >
-                  Şifre
-                </label>
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-slate-600 hover:text-green-600 transition-colors"
-                >
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="password" className="text-sm font-semibold text-slate-700">Şifre</label>
+                <Link href="/forgot-password" className="text-xs text-green-600 hover:text-green-700 font-medium">
                   Şifremi Unuttum
                 </Link>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="w-5 h-5 text-slate-400" />
-                </div>
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-slate-900 placeholder-slate-400"
+                  id="password" type="password" value={password}
+                  onChange={(e) => setPassword(e.target.value)} required
                   placeholder="••••••••"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition text-sm"
                 />
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-green-700 hover:bg-green-800 disabled:bg-green-400 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm hover:shadow-md"
+              type="submit" disabled={loading}
+              className="w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold rounded-xl hover:opacity-90 disabled:opacity-60 transition-opacity shadow-lg shadow-green-200 text-sm"
             >
-              {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+              {loading ? 'Giriş yapılıyor...' : (
+                <><ArrowRight className="w-4 h-4" /> Giriş Yap</>
+              )}
             </button>
           </form>
 
-          {/* Register Link */}
-          <div className="mt-8 text-center">
-            <p className="text-sm text-slate-500 mb-4">HESABINIZ YOK MU?</p>
-            <Link
-              href="/register"
-              className="inline-block w-full px-6 py-3 border-2 border-slate-200 text-slate-900 rounded-xl hover:border-slate-300 transition-colors font-medium text-center"
-            >
-              Hemen Kayıt Ol
+          <p className="mt-8 text-center text-sm text-slate-500">
+            Hesabınız yok mu?{' '}
+            <Link href="/register" className="text-green-600 font-bold hover:text-green-700">
+              Ücretsiz Kayıt Ol
             </Link>
-          </div>
+          </p>
 
-          {/* Copyright */}
-          <p className="mt-12 text-center text-xs text-slate-500">
-            © 2026 GetViza.ai. Tüm hakları saklıdır.
+          <p className="mt-8 text-center text-xs text-slate-400">
+            © 2026 EasyViza Yazılım A.Ş. Tüm hakları saklıdır.
           </p>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }

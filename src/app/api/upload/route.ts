@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { uploadDocument } from '@/lib/s3'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
-    // Kullanıcı authentication kontrolü
     const session = await getServerSession(authOptions)
     if (!session) {
       return NextResponse.json(
@@ -37,6 +37,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Döküman tipi gerekli' },
         { status: 400 }
+      )
+    }
+
+    // Başvurunun bu kullanıcıya ait olduğunu doğrula
+    const userId = session.user.id
+    const userRole = session.user.role
+
+    const application = await prisma.visaApplication.findUnique({
+      where: { id: visaApplicationId },
+      select: { userId: true }
+    })
+
+    if (!application) {
+      return NextResponse.json(
+        { error: 'Vize başvurusu bulunamadı' },
+        { status: 404 }
+      )
+    }
+
+    if (userRole !== 'ADMIN' && application.userId !== userId) {
+      return NextResponse.json(
+        { error: 'Bu başvuruya belge yükleme yetkiniz yok' },
+        { status: 403 }
       )
     }
 

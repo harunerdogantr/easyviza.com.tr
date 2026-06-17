@@ -10,8 +10,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'EasyViza - Authentication',
-  description: 'Authentication system with Next.js 14'
+  title: 'EasyViza — Vize Başvuru Platformu',
+  description: 'Vize başvurunuzu kolaylaştırın. Belgelerinizi yükleyin, başvurunuzu takip edin.'
 }
 
 export default function RootLayout({

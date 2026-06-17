@@ -48,8 +48,7 @@ export default async function ApplicationDetailPage({
   }
 
   // ADMIN rolü kontrolü
-  const userRole = (session.user as any)?.role
-  if (userRole !== 'ADMIN') {
+  if (session.user.role !== 'ADMIN') {
     redirect('/dashboard')
   }
 
@@ -90,9 +89,9 @@ export default async function ApplicationDetailPage({
       documents: {
         select: {
           id: true,
-          fileName: true,
-          fileType: true,
-          fileSize: true,
+          name: true,
+          type: true,
+          size: true,
           uploadedAt: true
         },
         orderBy: {
@@ -234,10 +233,10 @@ export default async function ApplicationDetailPage({
                       <FileText className="w-5 h-5 text-slate-400" />
                       <div>
                         <p className="text-sm font-medium text-slate-800">
-                          {doc.fileName}
+                          {doc.name}
                         </p>
                         <p className="text-xs text-slate-500">
-                          {doc.fileType} • {(doc.fileSize / 1024).toFixed(2)} KB
+                          {doc.type} • {doc.size ? (doc.size / 1024).toFixed(2) + ' KB' : 'Boyut bilinmiyor'}
                         </p>
                       </div>
                     </div>

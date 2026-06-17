@@ -3,67 +3,72 @@
 import { uploadDocument, getDocumentUrl, getDocumentUrls } from '@/lib/s3'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
-export type DocumentUploadResult = 
+async function requireSession() {
+  const session = await getServerSession(authOptions)
+  if (!session) throw new Error('Oturum açmanız gerekiyor')
+  return session
+}
+
+export type DocumentUploadResult =
   | { success: true; documentId: string; url: string }
   | { success: false; error: string }
 
-/**
- * Dosya yükleme Server Action
- */
 export async function uploadDocumentAction(
   formData: FormData
 ): Promise<DocumentUploadResult> {
   try {
+    const session = await requireSession()
+
     const file = formData.get('file') as File
     const visaApplicationId = formData.get('visaApplicationId') as string
     const documentType = formData.get('documentType') as string
 
-    if (!file) {
-      return {
-        success: false,
-        error: 'Dosya seçilmedi'
-      }
+    if (!file) return { success: false, error: 'Dosya seçilmedi' }
+    if (!visaApplicationId) return { success: false, error: 'Vize başvurusu ID\'si gerekli' }
+    if (!documentType) return { success: false, error: 'Döküman tipi gerekli' }
+
+    const application = await prisma.visaApplication.findUnique({
+      where: { id: visaApplicationId },
+      select: { userId: true }
+    })
+
+    if (!application) return { success: false, error: 'Vize başvurusu bulunamadı' }
+
+    if (session.user.role !== 'ADMIN' && application.userId !== session.user.id) {
+      return { success: false, error: 'Bu başvuruya belge yükleme yetkiniz yok' }
     }
 
-    if (!visaApplicationId) {
-      return {
-        success: false,
-        error: 'Vize başvurusu ID\'si gerekli'
-      }
-    }
-
-    if (!documentType) {
-      return {
-        success: false,
-        error: 'Döküman tipi gerekli'
-      }
-    }
-
-    // Dosyayı yükle ve kaydet
     const result = await uploadDocument(file, visaApplicationId, documentType)
 
     if (result.success) {
-      // Cache'i yenile
-      revalidatePath(`/applications/${visaApplicationId}`)
-      revalidatePath('/applications')
+      revalidatePath(`/dashboard/applications/${visaApplicationId}`)
     }
 
-    return result
+    return result as DocumentUploadResult
   } catch (error) {
     console.error('Upload document action error:', error)
-    return {
-      success: false,
-      error: 'Dosya yüklenirken bir hata oluştu'
-    }
+    return { success: false, error: 'Dosya yüklenirken bir hata oluştu' }
   }
 }
 
-/**
- * Document için presigned URL al (Server Action)
- */
 export async function getDocumentUrlAction(documentId: string): Promise<string | null> {
   try {
+    const session = await requireSession()
+
+    const document = await prisma.document.findUnique({
+      where: { id: documentId },
+      include: { visaApplication: { select: { userId: true } } }
+    })
+
+    if (!document) return null
+
+    if (session.user.role !== 'ADMIN' && document.visaApplication.userId !== session.user.id) {
+      return null
+    }
+
     return await getDocumentUrl(documentId)
   } catch (error) {
     console.error('Get document URL action error:', error)
@@ -71,13 +76,11 @@ export async function getDocumentUrlAction(documentId: string): Promise<string |
   }
 }
 
-/**
- * Birden fazla document için presigned URL'ler al
- */
 export async function getDocumentUrlsAction(
   documentIds: string[]
 ): Promise<Record<string, string>> {
   try {
+    await requireSession()
     return await getDocumentUrls(documentIds)
   } catch (error) {
     console.error('Get document URLs action error:', error)
@@ -85,58 +88,53 @@ export async function getDocumentUrlsAction(
   }
 }
 
-/**
- * VisaApplication'a ait tüm document'leri al
- */
 export async function getApplicationDocuments(visaApplicationId: string) {
   try {
-    const documents = await prisma.document.findMany({
-      where: {
-        visaApplicationId
-      },
-      orderBy: {
-        uploadedAt: 'desc'
-      }
+    const session = await requireSession()
+
+    const application = await prisma.visaApplication.findUnique({
+      where: { id: visaApplicationId },
+      select: { userId: true }
     })
 
-    return documents
+    if (!application) return []
+
+    if (session.user.role !== 'ADMIN' && application.userId !== session.user.id) {
+      return []
+    }
+
+    return await prisma.document.findMany({
+      where: { visaApplicationId },
+      orderBy: { uploadedAt: 'desc' }
+    })
   } catch (error) {
     console.error('Get application documents error:', error)
     return []
   }
 }
 
-/**
- * Document'i sil
- */
-export async function deleteDocumentAction(documentId: string): Promise<{ success: boolean; error?: string }> {
+export async function deleteDocumentAction(
+  documentId: string
+): Promise<{ success: boolean; error?: string }> {
   try {
-    // Document'i veritabanından sil
-    // Not: S3'teki dosyayı da silmek isteyebilirsiniz, bu için ek bir fonksiyon gerekir
-    await prisma.document.delete({
-      where: { id: documentId }
+    const session = await requireSession()
+
+    const document = await prisma.document.findUnique({
+      where: { id: documentId },
+      include: { visaApplication: { select: { userId: true } } }
     })
 
-    revalidatePath('/applications')
-    
+    if (!document) return { success: false, error: 'Belge bulunamadı' }
+
+    if (session.user.role !== 'ADMIN' && document.visaApplication.userId !== session.user.id) {
+      return { success: false, error: 'Bu belgeyi silme yetkiniz yok' }
+    }
+
+    await prisma.document.delete({ where: { id: documentId } })
+    revalidatePath('/dashboard/applications')
     return { success: true }
   } catch (error) {
     console.error('Delete document error:', error)
-    return {
-      success: false,
-      error: 'Döküman silinirken bir hata oluştu'
-    }
+    return { success: false, error: 'Döküman silinirken bir hata oluştu' }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-

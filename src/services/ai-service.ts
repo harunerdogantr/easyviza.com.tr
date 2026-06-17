@@ -66,7 +66,7 @@ export async function analyzeDocument(
     const base64Image = Buffer.from(imageBuffer).toString('base64')
 
     // Gemini Flash modelini kullan
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
 
     const systemPrompt = `Sen bir vize uzmanısın. Yüklenen belgeyi detaylı bir şekilde incele ve analiz et. 
 Belgenin geçerliliğini, netliğini ve uygunluğunu değerlendir. 
@@ -209,7 +209,7 @@ export async function getAIReview(visaApplicationId: string): Promise<AIReviewRe
       return null
     }
 
-    return application.aiReview as AIReviewResult
+    return application.aiReview as unknown as AIReviewResult
   } catch (error) {
     console.error('Get AI review error:', error)
     return null

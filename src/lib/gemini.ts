@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!)
  * Gemini 1.5 Flash modelini hazırla
  */
 export function getGeminiFlashModel() {
-  return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+  return genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
 }
 
 /**
