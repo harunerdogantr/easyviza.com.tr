@@ -1,0 +1,403 @@
+export interface VisaCountry {
+  id: number
+  name: string
+  slug: string
+  flag: string
+  gradient: string
+  visaType: string
+  duration: string
+  stay: string
+  entry: string
+  fee: string
+  processingTime: string
+  description: string
+  documents: string[]
+  steps: { title: string; desc: string }[]
+  rejectionReasons: string[]
+  faq: { id: number; question: string; answer: string }[]
+}
+
+export const visaCountries: VisaCountry[] = [
+  {
+    id: 1, name: 'Almanya', slug: 'almanya', flag: '🇩🇪',
+    gradient: 'from-slate-600 to-slate-800',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Almanya, Schengen Bölgesi\'nin en büyük ekonomisine sahip ülkesidir. Berlin\'den Münih\'e, Hamburg\'dan Köln\'e uzanan zengin kültür ve tarihin tam ortasında bir seyahat için Schengen vizesi gerekmektedir.',
+    documents: ['Geçerli pasaport (en az 6 ay geçerli)', 'Eksiksiz doldurulmuş başvuru formu', 'Biyometrik fotoğraf (son 6 ay)', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu (gidiş-dönüş)', 'Otel veya konaklama belgesi', 'Banka hesap dökümü (son 3 ay)', 'İş veya öğrenci belgesi', 'Vergi levhası / gelir belgesi'],
+    steps: [
+      { title: 'Başvuru Formunu Doldurun', desc: 'Online başvuru formunu eksiksiz ve doğru bilgilerle doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Yukarıdaki belge listesini eksiksiz toplayın, fotokopi ve asıllarını hazırlayın.' },
+      { title: 'Randevu Alın', desc: 'Almanya Büyükelçiliği veya yetkili vize merkezinden randevu alın.' },
+      { title: 'Başvurunuzu Teslim Edin', desc: 'Randevu günü belgelerinizi teslim edin ve biyometrik veri verin.' },
+      { title: 'Sonucu Bekleyin', desc: 'Ortalama 15 iş günü içinde sonuçlanır. Online takip imkânı mevcuttur.' },
+    ],
+    rejectionReasons: ['Eksik veya hatalı belgeler', 'Yetersiz finansal durum', 'Seyahat amacının belirsizliği', 'Yetersiz pasaport geçerlilik süresi', 'Schengen\'den dönmeme riski', 'Seyahat sigortasının eksikliği', 'Konaklama kanıtının olmaması'],
+    faq: [
+      { id: 1, question: 'Almanya vizesi kaç günde çıkar?', answer: 'Almanya Schengen vizesi ortalama 5–15 iş günü içinde sonuçlanır. Yoğun dönemlerde 30 iş gününe kadar uzayabilir.' },
+      { id: 2, question: 'Hangi sigortayı yaptırmalıyım?', answer: 'Tüm Schengen bölgesini kapsayan, minimum 30.000 € teminatlı seyahat sağlık sigortası zorunludur.' },
+      { id: 3, question: 'Almanya vizesiyle başka Schengen ülkelerine gidebilir miyim?', answer: 'Evet. Schengen vizesi tüm üye ülkelerde geçerlidir. Ancak vizeni, en uzun süre kalacağın ülkeden almanız gerekmektedir.' },
+      { id: 4, question: 'Vize reddedilirse ne yapabilirim?', answer: 'Red gerekçelerini inceleyerek eksiklikleri giderip yeniden başvurabilirsiniz. Ayrıca itiraz hakkınız da mevcuttur.' },
+    ],
+  },
+  {
+    id: 2, name: 'Fransa', slug: 'fransa', flag: '🇫🇷',
+    gradient: 'from-indigo-500 to-indigo-700',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Eiffel Kulesi, Louvre Müzesi ve dünyaca ünlü mutfağıyla Fransa, en çok ziyaret edilen ülkeler arasındadır. Paris başta olmak üzere tüm Fransa\'ya seyahat için Schengen vizesi gerekmektedir.',
+    documents: ['Geçerli pasaport (en az 6 ay geçerli)', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü (son 3 ay)', 'Çalışma belgesi veya öğrenci belgesi', 'Sponsorluk mektubu (varsa)'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Fransa Schengen vize başvuru formunu eksiksiz doldurun.' },
+      { title: 'Belgeleri Toplayın', desc: 'Gerekli tüm belgeler asıl ve fotokopi olarak hazırlanmalıdır.' },
+      { title: 'Randevu Alın', desc: 'TLScontact veya Fransa Konsolosluğu üzerinden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin, parmak izi verin.' },
+      { title: 'Sonucu Bekleyin', desc: 'Ortalama 7–15 iş günü içinde sonuç alınır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz banka bakiyesi', 'Belirsiz seyahat planı', 'Geçersiz sigorta', 'Seyahat geçmişinin olmaması'],
+    faq: [
+      { id: 1, question: 'Fransa vizesi nasıl alınır?', answer: 'TLScontact üzerinden randevu alarak belgelerinizi teslim edebilirsiniz. EasyViza olarak tüm süreci sizin için yönetiyoruz.' },
+      { id: 2, question: 'Paris\'e vizesiz gidilebilir mi?', answer: 'Türk vatandaşları Fransa\'ya Schengen vizesi almadan giremez.' },
+      { id: 3, question: 'Banka hesabımda ne kadar para olmalı?', answer: 'Genel kural olarak gün başına en az 50-100 Euro gösteren banka hesabı önerilmektedir.' },
+      { id: 4, question: 'Çoklu giriş vizesi alabilir miyim?', answer: 'Seyahat geçmişinize ve başvurunuza göre çoklu giriş vizesi verilebilir.' },
+    ],
+  },
+  {
+    id: 3, name: 'Hollanda', slug: 'hollanda', flag: '🇳🇱',
+    gradient: 'from-blue-400 to-blue-600',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Kanallar, lale tarlaları ve bisikletleriyle ünlü Hollanda\'ya seyahat için Schengen vizesi gerekmektedir. Amsterdam\'ın büyülü sokakları sizi bekliyor.',
+    documents: ['Geçerli pasaport (en az 6 ay geçerli)', 'Başvuru formu', 'Biyometrik fotoğraf (son 6 ay)', 'Seyahat sigortası (min. 30.000 €)', 'Gidiş-dönüş uçak rezervasyonu', 'Otel rezervasyonu veya davet mektubu', 'Banka hesap dökümü (son 3 ay)', 'İş belgesi / öğrenci belgesi', 'Vergi levhası / gelir belgesi'],
+    steps: [
+      { title: 'Başvuru Formunu Doldurun', desc: 'Online başvuru formunu eksiksiz ve doğru bilgilerle doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli belgeleri asıl ve fotokopileriyle hazırlayın.' },
+      { title: 'Randevu Alın', desc: 'Hollanda Konsolosluğu veya yetkili vize başvuru merkezinden randevu alın.' },
+      { title: 'Belgelerinizi Teslim Edin', desc: 'Randevu günü belgelerinizi teslim edin ve biyometrik veri verin.' },
+      { title: 'Sonucu Takip Edin', desc: 'Ortalama 15 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik veya hatalı belgeler', 'Yetersiz finansal durum', 'Seyahat amacının belirsizliği', 'Pasaport geçerlilik süresinin yetersiz olması', 'Schengen\'den dönmeme riski', 'Seyahat sigortasının eksikliği', 'Konaklama kanıtının olmaması', 'Uçak rezervasyonunun olmaması'],
+    faq: [
+      { id: 1, question: 'Hollanda vizesi için başvuru süresi ne kadar?', answer: 'Seyahat tarihinden en az 15 iş günü önceden başvuru yapılması önerilir. Yoğun dönemlerde 30 iş gününe uzayabilir.' },
+      { id: 2, question: 'Seyahat sigortası zorunlu mu?', answer: 'Evet, minimum 30.000 Euro teminatlı, tüm Schengen bölgesini kapsayan seyahat sigortası zorunludur.' },
+      { id: 3, question: 'Hollanda vizesiyle başka ülkelere gidebilir miyim?', answer: 'Evet, Schengen vizesidir ve tüm Schengen ülkelerinde geçerlidir.' },
+      { id: 4, question: 'Vize reddedilirse ne yapmalıyım?', answer: 'Red gerekçelerini inceleyerek eksiklikleri tamamlayıp yeniden başvuru yapabilirsiniz. İtiraz hakkınız da mevcuttur.' },
+    ],
+  },
+  {
+    id: 4, name: 'İtalya', slug: 'italya', flag: '🇮🇹',
+    gradient: 'from-amber-400 to-amber-600',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Tekli / Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Roma, Venedik, Floransa ve Amalfi Kıyıları ile İtalya, rüya seyahatlerinin gözdesidir. Türk vatandaşlarının İtalya\'ya giriş için Schengen vizesi alması gerekmektedir.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Vize başvuru formunu dikkatlice doldurun.' },
+      { title: 'Belgeleri Hazırlayın', desc: 'Tüm gerekli belgelerinizi toplayın.' },
+      { title: 'VFS Global\'dan Randevu Alın', desc: 'İtalya vizesi için VFS Global aracılığıyla randevu alabilirsiniz.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: 'Ortalama 7–15 iş gününde sonuç alınır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Belirsiz seyahat planı', 'Geçersiz sigorta', 'Konaklama kanıtı eksikliği'],
+    faq: [
+      { id: 1, question: 'İtalya vizesi ne kadar sürede çıkar?', answer: 'Ortalama 7–15 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Roma\'ya vizesiz gidilebilir mi?', answer: 'Hayır, Türk vatandaşlarının Schengen vizesi alması gerekmektedir.' },
+      { id: 3, question: 'Hangi konsolosluktan başvurmalıyım?', answer: 'İstanbul ve Ankara\'daki İtalya Başkonsolosluklarına veya VFS Global aracılığıyla başvurabilirsiniz.' },
+      { id: 4, question: 'Banka bakiyesi ne kadar olmalı?', answer: 'Günlük en az 50–100 Euro gösteren banka hesabı önerilmektedir.' },
+    ],
+  },
+  {
+    id: 5, name: 'İspanya', slug: 'ispanya', flag: '🇪🇸',
+    gradient: 'from-orange-400 to-red-500',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Barcelona\'nın modernist mimarisi, Madrid\'in müzeleri ve Endülüs\'ün tarihi dokusuyla İspanya her ziyaretçiye ayrı bir deneyim sunar. Schengen vizesiyle tüm İspanya\'yı keşfedebilirsiniz.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi', 'Seyahat planı'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Online başvuru formunu eksiksiz doldurun.' },
+      { title: 'Belgeleri Toplayın', desc: 'Gerekli tüm belgeleri hazırlayın.' },
+      { title: 'BLS International\'dan Randevu Alın', desc: 'BLS International üzerinden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Randevu gününde belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '7–15 iş günü içinde sonuç alınır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Belirsiz seyahat planı', 'Geçersiz sigorta', 'Dönüş güvencesinin olmaması'],
+    faq: [
+      { id: 1, question: 'İspanya vizesi ne kadar sürer?', answer: 'Ortalama 7–15 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Barcelona\'ya vizesiz gidilebilir mi?', answer: 'Hayır, Türk vatandaşları için Schengen vizesi zorunludur.' },
+      { id: 3, question: 'Hangi ajanstan randevu alabilirim?', answer: 'BLS International veya İspanya Büyükelçiliği üzerinden randevu alabilirsiniz.' },
+      { id: 4, question: 'Yaz sezonunda randevu bulunabiliyor mu?', answer: 'Yaz sezonunda randevular çok erken doluyor, en az 6–8 hafta önceden başvurmanızı öneririz.' },
+    ],
+  },
+  {
+    id: 6, name: 'Avusturya', slug: 'avusturya', flag: '🇦🇹',
+    gradient: 'from-red-500 to-pink-500',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Tekli / Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Viyana\'nın imparatorluk sarayları, Alp dağlarının nefes kesen manzaraları ve Mozart\'ın ülkesi Avusturya, Avrupa\'nın kültür başkentlerinden biridir.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Vize başvuru formunu eksiksiz doldurun.' },
+      { title: 'Belgeleri Toplayın', desc: 'Gerekli belgeleri hazırlayın.' },
+      { title: 'Randevu Alın', desc: 'Avusturya Büyükelçiliği veya yetkili merkezden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi teslim edin, biyometrik veri verin.' },
+      { title: 'Sonucu Bekleyin', desc: '5–10 iş günü içinde sonuç alınır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz banka bakiyesi', 'Geçersiz sigorta', 'Belirsiz seyahat amacı'],
+    faq: [
+      { id: 1, question: 'Avusturya vizesi kaç günde çıkar?', answer: 'Ortalama 5–10 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Viyana\'ya vizesiz gidilebilir mi?', answer: 'Hayır, Türk vatandaşları için Schengen vizesi zorunludur.' },
+      { id: 3, question: 'Avusturya vizesiyle Schengen\'e girebilir miyim?', answer: 'Evet, tüm Schengen ülkelerine girişte geçerlidir.' },
+      { id: 4, question: 'Kış sporları için vize alabilir miyim?', answer: 'Evet, turistik amaçlı vize ile kayak ve kış sporları aktivitelerine katılabilirsiniz.' },
+    ],
+  },
+  {
+    id: 7, name: 'Belçika', slug: 'belcika', flag: '🇧🇪',
+    gradient: 'from-yellow-400 to-orange-500',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Avrupa Birliği\'nin kalbi Brüksel, UNESCO Dünya Mirası listesindeki Brugge ve çikolata-waffle kültürüyle Belçika eşsiz bir deneyim sunar.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Belçika Schengen vize formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Tüm gerekli belgeleri toplayın.' },
+      { title: 'Randevu Alın', desc: 'Belçika Büyükelçiliği veya VFS Global üzerinden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '5–10 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Belçika vizesi kaç günde çıkar?', answer: 'Genellikle 5–10 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Brüksel\'e vizesiz gidilebilir mi?', answer: 'Hayır, Türk vatandaşları için Schengen vizesi zorunludur.' },
+      { id: 3, question: 'AB kurumlarını ziyaret için özel vize lazım mı?', answer: 'Standart turistik Schengen vizesiyle AB kurumlarını ziyaret edebilirsiniz.' },
+      { id: 4, question: 'Belçika vizesiyle Lüksemburg\'a gidebilir miyim?', answer: 'Evet, Schengen vizesi Lüksemburg dahil tüm Schengen ülkelerinde geçerlidir.' },
+    ],
+  },
+  {
+    id: 8, name: 'İsviçre', slug: 'isvicre', flag: '🇨🇭',
+    gradient: 'from-red-400 to-red-600',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺5.500', processingTime: '15 iş günü',
+    description: 'İsviçre AB üyesi olmasa da Schengen Bölgesi\'ne dahildir. Alp dağları, saatler, çikolata ve olağanüstü doğasıyla İsviçre, hayatın en güzel köşelerinden birini sunar.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi', 'Davet mektubu (varsa)'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'İsviçre Schengen vize başvuru formunu doldurun.' },
+      { title: 'Belgeleri Hazırlayın', desc: 'Tüm gerekli belgeleri eksiksiz toplayın.' },
+      { title: 'Randevu Alın', desc: 'İsviçre Büyükelçiliği veya TLScontact üzerinden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi teslim edin, biyometrik veri verin.' },
+      { title: 'Sonucu Bekleyin', desc: '5–10 iş günü içinde sonuç alınır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Dönüş garantisinin olmaması'],
+    faq: [
+      { id: 1, question: 'İsviçre vizesi kaç günde çıkar?', answer: 'Genellikle 5–10 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'İsviçre AB üyesi mi?', answer: 'Hayır, AB üyesi değil ama Schengen Bölgesi\'ne dahildir. Schengen vizesiyle giriş yapılabilir.' },
+      { id: 3, question: 'Kayak yapmak için özel vize lazım mı?', answer: 'Hayır, standart turistik Schengen vizesiyle kayak aktivitelerine katılabilirsiniz.' },
+      { id: 4, question: 'Zurich mi Cenevre mi, hangi şehre başvurmalıyım?', answer: 'Vize başvurusu şehirden bağımsız, en uzun süre kalacağınız ülkeye yapılır.' },
+    ],
+  },
+  {
+    id: 9, name: 'Norveç', slug: 'norvec', flag: '🇳🇴',
+    gradient: 'from-teal-400 to-cyan-500',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Tekli / Çoklu Giriş', fee: '₺5.000', processingTime: '15 iş günü',
+    description: 'Kuzey Işıkları, derin fiyortlar ve doğanın en saf haliyle Norveç, macera tutkunlarının gözdesidir. Eylül–Mart arası aurora gözlemi için Norveç vizesi alabilirsiniz.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Norveç Schengen vize formunu doldurun.' },
+      { title: 'Belgelerinizi Toplayın', desc: 'Gerekli tüm belgeleri hazırlayın.' },
+      { title: 'Randevu Alın', desc: 'Norveç Büyükelçiliği veya VFS Global üzerinden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '7–15 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Kuzey Işıkları ne zaman görülür?', answer: 'Eylül\'den Mart\'a kadar, özellikle Tromsø çevresinde. Ay olmayan, bulutlu olmayan geceler en iyisidir.' },
+      { id: 2, question: 'Norveç Schengen\'e dahil mi?', answer: 'Evet, AB üyesi olmasa da Schengen Bölgesi\'ne dahildir.' },
+      { id: 3, question: 'Norveç vizesi kaç günde çıkar?', answer: 'Ortalama 7–15 iş günü içinde sonuçlanır.' },
+      { id: 4, question: 'Norveç gezisi için ne kadar bütçe gerekir?', answer: 'Norveç pahalı bir ülkedir. Günlük 100–200 Euro bütçe planlamanız önerilir.' },
+    ],
+  },
+  {
+    id: 10, name: 'İsveç', slug: 'isvec', flag: '🇸🇪',
+    gradient: 'from-yellow-500 to-amber-600',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'ABBA\'nın, IKEA\'nın ve Spotify\'ın ülkesi İsveç; Stockholm\'ün renkli mimarisi, beyaz geceler ve doğanın muhteşem güzelliğiyle sizi bekliyor.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'İsveç vize başvuru formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli belgeleri eksiksiz toplayın.' },
+      { title: 'VFS Global\'dan Randevu Alın', desc: 'İsveç vizesi için VFS Global kullanılmaktadır.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '7–15 iş günü içinde sonuç alınır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz banka bakiyesi', 'Geçersiz sigorta', 'Belirsiz seyahat amacı'],
+    faq: [
+      { id: 1, question: 'Stockholm\'e nasıl başvuru yapılır?', answer: 'VFS Global üzerinden randevu alarak başvurunuzu tamamlayabilirsiniz.' },
+      { id: 2, question: 'Beyaz geceler ne zaman?', answer: 'Haziran–Temmuz aylarında İsveç\'in kuzeyinde gün 24 saat aydınlık olur.' },
+      { id: 3, question: 'İsveç vizesiyle Finlandiya\'ya gidebilir miyim?', answer: 'Evet, Schengen vizesi tüm üye ülkelerde geçerlidir.' },
+      { id: 4, question: 'Vize ücreti nedir?', answer: 'Schengen vize ücreti yaklaşık 80 Euro\'dur, buna EasyViza hizmet ücreti eklenir.' },
+    ],
+  },
+  {
+    id: 11, name: 'Portekiz', slug: 'portekiz', flag: '🇵🇹',
+    gradient: 'from-green-500 to-emerald-600',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Lizbon\'un fado müziği, Sintra\'nın peri masalı kaleleri ve Algarve\'nin altın kumsalları — Portekiz, Avrupa\'nın en özgün ve sıcakkanlı destinasyonlarından biridir.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Portekiz Schengen vize formunu doldurun.' },
+      { title: 'Belgeleri Hazırlayın', desc: 'Gerekli tüm belgeleri toplayın.' },
+      { title: 'VFS Global\'dan Randevu Alın', desc: 'Portekiz vizesi için VFS Global kullanılmaktadır.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '7–15 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Portekiz vizesi kaç günde çıkar?', answer: 'Ortalama 7–15 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Lizbon\'a en ucuz nasıl gidilir?', answer: 'Erken rezervasyonla direktif uçuşlar çok uygun fiyatlara bulunabilir. Vize başvurusunu 6–8 hafta önceden yapmanızı öneririz.' },
+      { id: 3, question: 'Portekiz\'de kaç gün kalınabilir?', answer: 'Schengen vizesiyle 90 gün içinde 180 günlük sürede kalınabilir.' },
+      { id: 4, question: 'Algarve için özel bir vize gerekiyor mu?', answer: 'Hayır, standart Schengen vizesiyle Portekiz\'in her bölgesine gidebilirsiniz.' },
+    ],
+  },
+  {
+    id: 12, name: 'Yunanistan', slug: 'yunanistan', flag: '🇬🇷',
+    gradient: 'from-blue-500 to-cyan-500',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Santorini\'nin mavi kubbeli kiliseleri, Atina\'nın antik tarihi ve Ege adalarının masmavi suları Yunanistan\'ı dünyanın en sevilen tatil destinasyonlarından biri yapmaktadır.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Yunanistan Schengen vize formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli belgeleri toplayın.' },
+      { title: 'Randevu Alın', desc: 'Yunanistan Başkonsolosluğu veya VFS Global\'dan randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '5–10 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz konaklama planı'],
+    faq: [
+      { id: 1, question: 'Yunanistan vizesi kaç günde çıkar?', answer: 'Ortalama 5–10 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Santorini\'ye nasıl gidilir?', answer: 'Atina\'dan feribot veya uçakla ulaşılabilir. Schengen vizesiyle ada seyahatleri mümkündür.' },
+      { id: 3, question: 'Yaz sezonunda randevu bulunabiliyor mu?', answer: 'Yaz aylarında çok yoğun olduğu için en az 8 hafta önceden başvurmanızı öneririz.' },
+      { id: 4, question: 'Türkiye\'den Yunanistan\'a feribot ile geçilebilir mi?', answer: 'Evet, Bodrum–Kos, Kuşadası–Samos gibi hatlardan feribot seferleri mevcuttur. Schengen vizesi gereklidir.' },
+    ],
+  },
+  {
+    id: 13, name: 'Çekya', slug: 'cekya', flag: '🇨🇿',
+    gradient: 'from-blue-500 to-blue-700',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Tekli / Çoklu Giriş', fee: '₺3.500', processingTime: '15 iş günü',
+    description: 'Prag\'ın Orta Çağ\'dan kalma köprüleri, gotik katedraller ve tarihi çarşısıyla Çekya, Avrupa\'nın en büyüleyici başkentlerinden birine ev sahipliği yapar.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Çekya vize başvuru formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli tüm belgeleri toplayın.' },
+      { title: 'Randevu Alın', desc: 'Çekya Büyükelçiliği\'nden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '5–10 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Prag\'a nasıl başvuru yapılır?', answer: 'Çekya Büyükelçiliği üzerinden başvurabilirsiniz. EasyViza tüm süreci yönetir.' },
+      { id: 2, question: 'Çekya vizesi kaç günde çıkar?', answer: 'Ortalama 5–10 iş günü içinde sonuçlanır.' },
+      { id: 3, question: 'Çekya\'da euro mu kullanılıyor?', answer: 'Hayır, Çekya Kronu (CZK) kullanılır.' },
+      { id: 4, question: 'Çekya\'dan Avusturya\'ya geçiş yapılabilir mi?', answer: 'Evet, Schengen vizesiyle her iki ülkeye de serbestçe girebilirsiniz.' },
+    ],
+  },
+  {
+    id: 14, name: 'Polonya', slug: 'polonya', flag: '🇵🇱',
+    gradient: 'from-red-400 to-red-600',
+    visaType: 'Schengen Vizesi', duration: '5–10 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺3.500', processingTime: '15 iş günü',
+    description: 'Varşova\'nın yeniden inşa edilmiş tarihi merkezi ve Krakow\'un etkileyici ortaçağ dokusunu keşfetmek için Polonya vizesi alabilirsiniz.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Polonya Schengen vize formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli belgeleri toplayın.' },
+      { title: 'Randevu Alın', desc: 'Polonya Büyükelçiliği veya VFS Global\'dan randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '5–10 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Polonya vizesi kaç günde çıkar?', answer: 'Ortalama 5–10 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Krakow ve Varşova aynı vizede ziyaret edilebilir mi?', answer: 'Evet, tek bir Schengen vizesiyle tüm Polonya\'yı gezebilirsiniz.' },
+      { id: 3, question: 'Polonya euro kullanıyor mu?', answer: 'Hayır, Polonya Zlotisi (PLN) kullanılır.' },
+      { id: 4, question: 'Polonya\'dan Almanya\'ya geçiş yapılabilir mi?', answer: 'Evet, Schengen vizesiyle serbest geçiş yapılabilir.' },
+    ],
+  },
+  {
+    id: 15, name: 'Danimarka', slug: 'danimarka', flag: '🇩🇰',
+    gradient: 'from-red-500 to-red-700',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Dünyanın en mutlu ülkeleri arasında gösterilen Danimarka, Kopenhag\'ın renkli Nyhavn limanı ve tasarım kültürüyle öne çıkar.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Danimarka vize formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli tüm belgeleri toplayın.' },
+      { title: 'Randevu Alın', desc: 'VFS Global veya Danimarka Büyükelçiliği\'nden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '7–15 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Danimarka vizesi kaç günde çıkar?', answer: 'Ortalama 7–15 iş günü içinde sonuçlanır.' },
+      { id: 2, question: 'Kopenhag için en iyi dönem ne zaman?', answer: 'Mayıs–Eylül arası ideal, ancak kış aylarında da büyülü bir atmosfer sunar.' },
+      { id: 3, question: 'Danimarka Schengen\'e dahil mi?', answer: 'Evet, Danimarka Schengen Bölgesi\'ne dahildir.' },
+      { id: 4, question: 'Danimarka\'dan İsveç\'e geçiş yapılabilir mi?', answer: 'Evet, Øresund Köprüsü üzerinden kolayca geçiş yapılabilir.' },
+    ],
+  },
+  {
+    id: 16, name: 'Finlandiya', slug: 'finlandiya', flag: '🇫🇮',
+    gradient: 'from-blue-600 to-indigo-700',
+    visaType: 'Schengen Vizesi', duration: '7–15 iş günü', stay: '90 güne kadar', entry: 'Çoklu Giriş', fee: '₺4.500', processingTime: '15 iş günü',
+    description: 'Beyaz geceler, Kuzey Işıkları ve sauna kültürüyle Finlandiya eşsiz bir deneyim sunar. Helsinki\'nin modern tasarımı ve Lapland\'ın kutup büyüsü sizi bekliyor.',
+    documents: ['Geçerli pasaport', 'Başvuru formu', 'Biyometrik fotoğraf', 'Seyahat sigortası (min. 30.000 €)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Banka hesap dökümü', 'İş / öğrenci belgesi'],
+    steps: [
+      { title: 'Formu Doldurun', desc: 'Finlandiya Schengen vize formunu doldurun.' },
+      { title: 'Belgelerinizi Hazırlayın', desc: 'Gerekli belgeleri toplayın.' },
+      { title: 'Randevu Alın', desc: 'VFS Global veya Finlandiya Büyükelçiliği\'nden randevu alın.' },
+      { title: 'Başvuruyu Teslim Edin', desc: 'Belgelerinizi eksiksiz teslim edin.' },
+      { title: 'Sonucu Bekleyin', desc: '7–15 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Eksik belgeler', 'Yetersiz finansal kanıt', 'Geçersiz sigorta', 'Belirsiz seyahat planı'],
+    faq: [
+      { id: 1, question: 'Finlandiya\'da Noel Baba\'yı görebilir miyim?', answer: 'Evet! Rovaniemi\'deki Noel Baba Köyü tüm yıl ziyarete açıktır.' },
+      { id: 2, question: 'Kuzey Işıkları için en iyi dönem ne zaman?', answer: 'Eylül–Mart arası, özellikle Lapland bölgesinde en iyi gözlem yapılır.' },
+      { id: 3, question: 'Finlandiya vizesi kaç günde çıkar?', answer: 'Ortalama 7–15 iş günü içinde sonuçlanır.' },
+      { id: 4, question: 'Finlandiya\'dan Estonya\'ya geçilebilir mi?', answer: 'Evet, Helsinki–Tallinn feribot hattıyla yaklaşık 2 saatte geçiş yapılabilir.' },
+    ],
+  },
+  {
+    id: 17, name: 'Birleşik Krallık', slug: 'ingiltere', flag: '🇬🇧',
+    gradient: 'from-blue-700 to-blue-900',
+    visaType: 'UK Standart Ziyaretçi Vizesi', duration: '15–30 iş günü', stay: '6 aya kadar', entry: 'Çoklu Giriş', fee: '₺8.000', processingTime: '21 iş günü',
+    description: 'Londra\'nın ikonik köprüleri, Edinburgh\'un tarihi kalesi ve Lake District\'in nefes kesen doğası için Birleşik Krallık\'a standart ziyaretçi vizesi gerekmektedir.',
+    documents: ['Geçerli pasaport', 'Online başvuru formu (UK Visas & Immigration)', 'Biyometrik fotoğraf', 'Banka hesap dökümü (son 6 ay)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'İş belgesi ve maaş bordrosu', 'Vergi beyannamesi', 'Sponsorluk mektubu (varsa)', 'Önceki vize geçmişi'],
+    steps: [
+      { title: 'Online Başvuru Yapın', desc: 'UK Visas & Immigration (gov.uk) üzerinden online başvuruyu doldurun ve ücret ödeyin.' },
+      { title: 'Biometrics Randevusu Alın', desc: 'VFS Global üzerinden parmak izi ve fotoğraf için randevu alın.' },
+      { title: 'Belgelerinizi Yükleyin', desc: 'Gerekli belgeleri online sisteme yükleyin veya randevu günü teslim edin.' },
+      { title: 'Biometrics Verin', desc: 'Randevu günü parmak izinizi verin ve fotoğrafınızı çektirin.' },
+      { title: 'Sonucu Bekleyin', desc: 'Standart başvurular 21 iş günü içinde sonuçlanır.' },
+    ],
+    rejectionReasons: ['Yetersiz finansal kanıt', 'Geri dönüş niyetinin kanıtlanamaması', 'Eksik belgeler', 'Önceki vize ihlalleri', 'Seyahat amacının belirsizliği', 'Sahte belgeler'],
+    faq: [
+      { id: 1, question: 'UK vizesi kaç günde çıkar?', answer: 'Standart başvurular 21 iş günü içinde sonuçlanır. Hızlandırılmış işlem için ek ücret ödenerek 5 iş gününe indirilebilir.' },
+      { id: 2, question: 'UK vizesi için ne kadar para göstermem gerekiyor?', answer: 'Kesin bir rakam belirlenmemiş olsa da günlük 100–200 sterlin gösteren banka hesabı önerilmektedir.' },
+      { id: 3, question: 'Brexit\'ten sonra UK vizesi değişti mi?', answer: 'Evet, Brexit sonrası Schengen vizesi UK için geçerli değildir. Ayrı UK vizesi gerekmektedir.' },
+      { id: 4, question: 'UK vizesiyle İrlanda\'ya gidebilir miyim?', answer: 'Hayır, İrlanda için ayrı vize gerekmektedir. İrlanda Schengen bölgesine dahil değildir.' },
+    ],
+  },
+  {
+    id: 18, name: 'Amerika Birleşik Devletleri', slug: 'abd', flag: '🇺🇸',
+    gradient: 'from-blue-600 to-indigo-700',
+    visaType: 'ABD B1/B2 Turist Vizesi', duration: '30–60 iş günü', stay: '6 aya kadar', entry: 'Çoklu Giriş', fee: '₺12.000', processingTime: '60 iş günü',
+    description: 'New York\'un gökdelenleri, Los Angeles\'ın film stüdyoları, Miami\'nin plajları ve Grand Canyon\'ın muhteşem görüntüsü için ABD turist vizesi gereklidir.',
+    documents: ['Geçerli pasaport', 'Online DS-160 formu', 'Biyometrik fotoğraf (ABD standartları)', 'Banka hesap dökümü (son 6 ay)', 'İş belgesi / maaş bordrosu', 'Tapu / araç belgesi (varlık kanıtı)', 'Uçak rezervasyonu', 'Konaklama belgesi', 'Davet mektubu (varsa)', 'Önceki ABD vize geçmişi'],
+    steps: [
+      { title: 'DS-160 Formunu Doldurun', desc: 'ABD Büyükelçiliği\'nin online sistemi üzerinden DS-160 formunu eksiksiz doldurun.' },
+      { title: 'Vize Ücretini Ödeyin', desc: 'MRV ücretini (160 USD) banka veya online ödeme ile ödeyin.' },
+      { title: 'Mülakat Randevusu Alın', desc: 'Ödeme sonrası Ankara veya İstanbul ABD Büyükelçiliği\'nden randevu alın.' },
+      { title: 'Mülakata Katılın', desc: 'Mülakat gününde tüm belgelerinizi yanınıza alın. Konsolosluk görevlisi sizi Türkçe veya İngilizce olarak görüşecektir.' },
+      { title: 'Pasaportunuzu Alın', desc: 'Onaylanırsa pasaportunuz kurye ile adresinize gönderilir.' },
+    ],
+    rejectionReasons: ['Geri dönüş niyetinin kanıtlanamaması', 'Yetersiz finansal kanıt', 'Önceki vize ihlali', 'Eksik veya yanlış belgeler', 'Mülakat performansı', 'Bağ kanıtının (aile, iş, mülk) yetersizliği'],
+    faq: [
+      { id: 1, question: 'ABD vizesi kaç günde çıkar?', answer: 'Mülakat randevusu almak 30–90 gün, toplam süreç ise 60–90 iş günü sürebilir. En az 3–4 ay önceden başvurmanız önerilir.' },
+      { id: 2, question: 'ABD vizesi mülakatı nasıl geçer?', answer: 'Konsolosluk görevlisi seyahat amacınızı, finansal durumunuzu ve Türkiye\'ye dönüş niyetinizi sorgular. Kısa, net ve dürüst cevaplar vermeniz önemlidir.' },
+      { id: 3, question: 'ESTA ile ABD\'ye gidilebilir mi?', answer: 'Türk vatandaşları ESTA programına dahil değildir. Vize başvurusu zorunludur.' },
+      { id: 4, question: 'Reddedilirsem tekrar başvurabilir miyim?', answer: 'Evet, ancak yeni ve güçlendirilmiş belgelerle başvurmanız başarı şansınızı artırır. EasyViza ekibi bu süreçte size rehberlik eder.' },
+    ],
+  },
+]
+
+export function getVisaCountry(slug: string): VisaCountry | undefined {
+  return visaCountries.find((c) => c.slug === slug)
+}

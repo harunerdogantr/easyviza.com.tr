@@ -12,8 +12,8 @@ const navLinks = {
   company: [
     { label: 'Hakkımızda', href: '/about' },
     { label: 'İletişim', href: '/contact' },
-    { label: 'Kariyer', href: '/about' },
-    { label: 'Basın', href: '/about' },
+    { label: 'Kariyer', href: '/kariyer' },
+    { label: 'Basın', href: '/basin' },
   ],
   legal: [
     { label: 'KVKK Aydınlatma Metni', href: '/kvkk' },
